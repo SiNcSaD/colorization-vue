@@ -11,6 +11,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@tensorflow/tfjs": "^0.13.1",
+    "color-space": "^1.16.0",
+    "ndarray": "^1.0.18",
+    "save-pixels": "^2.3.4",
     "vue": "^2.5.2"
   },
   "devDependencies": {
