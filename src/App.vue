@@ -51,6 +51,12 @@
       </div>
 
     </div>
+    <div class="uk-section uk-section-secondary bottom_info uk-margin-medium-top">
+      <div class="uk-container uk-text-center">
+        <h3>國立台北科技大學 - 電機工程系 - 高效能計算與深度學習研究室</h3>
+        <h3 class="uk-margin-remove">National Taipei University of Technology - Department of Electrical Engineering</h3>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -217,5 +223,8 @@ i {
 }
 .image-compare-handle[data-v-2aa9daa6] {
   color: slateblue;
+}
+.bottom_info h3 {
+  font-family: SimSun, Microsoft JhengHei;
 }
 </style>
