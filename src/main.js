@@ -2,7 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import VueImageCompare from 'vue-image-compare'
 
+Vue.use(VueImageCompare)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

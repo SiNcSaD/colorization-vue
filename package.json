@@ -15,7 +15,8 @@
     "color-space": "^1.16.0",
     "ndarray": "^1.0.18",
     "save-pixels": "^2.3.4",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-image-compare": "^0.6.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -3,12 +3,12 @@
     <div class="title-banner">
       <img src="/static/Hello Picture.jpg" alt="">
     </div>
-    <div class="uk-container uk-container-large uk-text-center uk-margin">
+    <div class="uk-container uk-container-large uk-text-center">
       <div>
         <h1>Colorization</h1>
         <h4 class="uk-margin">Convert Grayscale Images to Color Images Based on Deep Learning</h4>
       </div>
-      <div class="uk-child-width-1-2@m uk-margin-remove uk-flex-middle" uk-grid>
+      <div class="uk-child-width-1-2@m uk-flex-middle" uk-grid>
         <!-- 1. Paste URL -->
         <div class="uk-padding-remove">
           <h3>Paste the URL to an image</h3>
@@ -34,13 +34,19 @@
       </div>
 
       <!-- Show input and output -->
-      <div class="uk-child-width-1-2@m uk-margin-top" uk-grid>
-        <div class="uk-padding-remove">
-          <img id="img_Src" :src="imageSrc" max-height="300px">
-        </div>
+      <div v-if="isOK === true" id="result-compare" class="uk-flex uk-flex-center uk-margin">
+        <image-compare :before="imageDst" :after="imageSrc">
+          <i class="fa fa-angle-left" aria-hidden="true" slot="icon-left"></i>
+          <i class="fa fa-angle-right" aria-hidden="true" slot="icon-right"></i>
+        </image-compare>
+      </div>
 
+      <div class="uk-child-width-1-2@m uk-margin-top" style="display:none" uk-grid>
         <div class="uk-padding-remove">
-          <canvas id="canvas_Out" width="224" height="224"></canvas>
+          <img id="img-src" :src="imageSrc" max-height="300px">
+        </div>
+        <div class="uk-padding-remove">
+          <canvas id="canvas-dst" width="224" height="224"></canvas>
         </div>
       </div>
 
@@ -70,7 +76,9 @@ export default {
   name: 'App',
   data () {
     return {
-      imageSrc: null
+      imageSrc: '/static/after.jpg',
+      imageDst: '/static/before.jpg',
+      isOK: false
     }
   },
   created: function () {
@@ -94,10 +102,11 @@ export default {
     inference () {
       loadModel().then(model => {
         console.log('Predicting...')
+
         /**
          * Get element of html <img>
          */
-        var imgSrcElement = document.getElementById('img_Src')
+        var imgSrcElement = document.getElementById('img-src')
         var H = imgSrcElement.height
         var W = imgSrcElement.width
         this.imgSrcHeight = H
@@ -149,13 +158,20 @@ export default {
         /**
          * Draw result image
          */
-        var c = document.getElementById('canvas_Out')
+        var c = document.getElementById('canvas-dst')
         var ctx = c.getContext('2d')
         c.height = H
         c.width = W
         const imgResultT = tf.transpose(imgResult, [1, 0, 2])
         var canvasResult = savePixels(ndarray(imgResultT.dataSync(), imgResultT.shape), 'canvas')
+
+        /**
+         * Show result to HTML
+         */
         ctx.drawImage(canvasResult, 0, 0, W, H)
+        this.imageDst = c.toDataURL()
+        this.isOK = true
+        // document.getElementById('result-compare').style.display = 'block'
 
         /**
          * dispose tensor variable
@@ -182,6 +198,9 @@ html {
 h1 {
   font-weight: bold;
 }
+.image-compare {
+  width: 500px;
+}
 .uk-placeholder {
   border: 3px dashed #000000;
 }
@@ -192,30 +211,11 @@ h1 {
   background: #657c89;
   color: #ffffff;
 }
-* {box-sizing: border-box;}
-.img-comp-container {
-  position: relative;
-  height: 200px; /*should be the same height as the images*/
+i {
+  font-size: 32px;
+  color: slateblue;
 }
-.img-comp-img {
-  position: absolute;
-  width: auto;
-  height: auto;
-  overflow: hidden;
-}
-.img-comp-img img {
-  display: block;
-  vertical-align: middle;
-}
-.img-comp-slider {
-  position: absolute;
-  z-index: 9;
-  cursor: ew-resize;
-  /*set the appearance of the slider:*/
-  width: 40px;
-  height: 40px;
-  background-color: #2196F3;
-  opacity: 0.7;
-  border-radius: 50%;
+.image-compare-handle[data-v-2aa9daa6] {
+  color: slateblue;
 }
 </style>
