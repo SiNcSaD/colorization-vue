@@ -4,25 +4,41 @@
       <img src="/static/Hello Picture.jpg" alt="">
     </div>
     <div class="uk-container uk-container-large uk-text-center uk-margin">
-
-      <div class="uk-child-width-1-2@m uk-margin-remove" uk-grid>
-
+      <div>
+        <h1>Colorization</h1>
+        <h4 class="uk-margin">Convert Grayscale Images to Color Images Based on Deep Learning</h4>
+      </div>
+      <div class="uk-child-width-1-2@m uk-margin-remove uk-flex-middle" uk-grid>
         <!-- 1. Paste URL -->
-        <h3>Paste the URL to image</h3>
+        <div class="uk-padding-remove">
+          <h3>Paste the URL to an image</h3>
+          <form>
+            <div uk-margin>
+              <div class="uk-inline uk-width-1-2">
+                <span class="uk-form-icon" uk-icon="icon: link"></span>
+                <input class="uk-input" type="text" placeholder="http://">
+              </div>
+              <button class="uk-button uk-button-default">Submit</button>
+            </div>
+          </form>
+        </div>
 
         <!-- 2. Upload image -->
-        <div>
-          <h3>Paste the URL to image</h3>
+        <div class="uk-padding-remove">
+          <h3>Click the button to upload an image</h3>
           <div class="uk-animation-toggle" uk-form-custom>
             <input type="file" @change="onPickFile">
-            <button class="uk-button uk-button-secondary uk-animation-shake" type="button" tabindex="-1">Upload Image</button>
+            <button class="uk-button uk-animation-shake upload-button" type="button" tabindex="-1">Upload Image</button>
           </div>
         </div>
       </div>
-      <div class="uk-child-width-1-2@m uk-margin-remove" uk-grid>
+
+      <!-- Show input and output -->
+      <div class="uk-child-width-1-2@m uk-margin-top" uk-grid>
         <div class="uk-padding-remove">
           <img id="img_Src" :src="imageSrc" max-height="300px">
         </div>
+
         <div class="uk-padding-remove">
           <canvas id="canvas_Out" width="224" height="224"></canvas>
         </div>
@@ -56,6 +72,9 @@ export default {
     return {
       imageSrc: null
     }
+  },
+  created: function () {
+    // initComparisons()
   },
   methods: {
     onPickFile (e) {
@@ -160,12 +179,43 @@ export default {
 html {
   background: #F6F9FA;
 }
-
+h1 {
+  font-weight: bold;
+}
 .uk-placeholder {
   border: 3px dashed #000000;
 }
-
 .title-banner {
   margin: 20px 20px;
+}
+.upload-button {
+  background: #657c89;
+  color: #ffffff;
+}
+* {box-sizing: border-box;}
+.img-comp-container {
+  position: relative;
+  height: 200px; /*should be the same height as the images*/
+}
+.img-comp-img {
+  position: absolute;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+}
+.img-comp-img img {
+  display: block;
+  vertical-align: middle;
+}
+.img-comp-slider {
+  position: absolute;
+  z-index: 9;
+  cursor: ew-resize;
+  /*set the appearance of the slider:*/
+  width: 40px;
+  height: 40px;
+  background-color: #2196F3;
+  opacity: 0.7;
+  border-radius: 50%;
 }
 </style>
