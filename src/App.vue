@@ -5,39 +5,41 @@
     </div>
     <div class="uk-container uk-container-large uk-text-center">
       <div>
-        <h1>Colorization</h1>
-        <h4 class="uk-margin">Convert Grayscale Images to Color Images Based on Deep Learning</h4>
+        <h1 class="rainbow uk-margin-remove">Colorization</h1>
+        <h3 class="uk-margin-medium">Convert Grayscale Images to Color Images Based on Deep Learning</h3>
       </div>
       <div class="uk-child-width-1-2@m uk-flex-middle" uk-grid>
         <!-- 1. Paste URL -->
         <div class="uk-padding-remove">
-          <h3>Paste the URL to an image</h3>
+          <h3 class="subtitle">Paste the URL to an image</h3>
           <form>
             <div uk-margin>
               <div class="uk-inline uk-width-1-2">
                 <span class="uk-form-icon" uk-icon="icon: link"></span>
                 <input class="uk-input" type="text" placeholder="http://">
               </div>
-              <button class="uk-button uk-button-default">Submit</button>
+              <button class="uk-button uk-button-primary">Submit</button>
             </div>
           </form>
         </div>
 
         <!-- 2. Upload image -->
         <div class="uk-padding-remove">
-          <h3>Click the button to upload an image</h3>
+          <h3 class="subtitle">Click the button to upload an image</h3>
           <div class="uk-animation-toggle" uk-form-custom>
             <input type="file" @change="onPickFile">
-            <button class="uk-button uk-animation-shake upload-button" type="button" tabindex="-1">Upload Image</button>
+            <button class="uk-button uk-button-secondary uk-animation-shake" type="button" tabindex="-1">
+              <span><i class="fa fa-upload uk-margin-small-right" aria-hidden="true"></i>Upload</span>
+            </button>
           </div>
         </div>
       </div>
 
       <!-- Show input and output -->
-      <div v-if="isOK === true" id="result-compare" class="uk-flex uk-flex-center uk-margin">
+      <div v-if="isOK === true" id="result-compare" class="uk-flex uk-flex-center uk-margin-medium-top">
         <image-compare :before="imageDst" :after="imageSrc">
-          <i class="fa fa-angle-left" aria-hidden="true" slot="icon-left"></i>
-          <i class="fa fa-angle-right" aria-hidden="true" slot="icon-right"></i>
+          <i class="fa fa-angle-left slider-compare" aria-hidden="true" slot="icon-left"></i>
+          <i class="fa fa-angle-right slider-compare" aria-hidden="true" slot="icon-right"></i>
         </image-compare>
       </div>
 
@@ -213,11 +215,7 @@ h1 {
 .title-banner {
   margin: 20px 20px;
 }
-.upload-button {
-  background: #657c89;
-  color: #ffffff;
-}
-i {
+.slider-compare {
   font-size: 32px;
   color: slateblue;
 }
@@ -226,5 +224,16 @@ i {
 }
 .bottom_info h3 {
   font-family: SimSun, Microsoft JhengHei;
+}
+.rainbow {
+  background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-size: 72px;
+  display:inline-block;
+}
+.subtitle {
+  font-size: 32px;
 }
 </style>
