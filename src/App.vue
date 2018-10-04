@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <div class="title-banner">
+    <div class="title-banner uk-text-center">
       <img src="/static/Hello Picture.jpg" alt="">
     </div>
     <div class="uk-container uk-container-large uk-text-center">
       <div>
         <h1 class="rainbow uk-margin-remove">Colorization</h1>
-        <h3 class="uk-margin-medium">Convert Grayscale Images to Color Images Based on Deep Learning</h3>
+        <h3 style="margin: 20px 0px">Convert Grayscale Images to Color Images Based on Deep Learning</h3>
       </div>
-      <div class="uk-child-width-1-2@m uk-flex-middle" uk-grid>
+      <div class="uk-child-width-1-2@m uk-child-width-1-1@s uk-flex-middle uk-margin-remove" uk-grid>
         <!-- 1. Paste URL -->
         <div class="uk-padding-remove">
           <h3 class="subtitle">Paste the URL to an image</h3>
+          <!-- <h3 class="subtitle">Paste the URL</h3> -->
           <form>
             <div uk-margin>
               <div class="uk-inline uk-width-1-2">
@@ -26,6 +27,7 @@
         <!-- 2. Upload image -->
         <div class="uk-padding-remove">
           <h3 class="subtitle">Click the button to upload an image</h3>
+          <!-- <h3 class="subtitle">Click the button</h3> -->
           <div class="uk-animation-toggle" uk-form-custom>
             <input type="file" @change="onPickFile">
             <button class="uk-button uk-button-secondary uk-animation-shake" type="button" tabindex="-1">
@@ -35,6 +37,7 @@
         </div>
       </div>
 
+      <h4>{{msgState}}</h4>
       <!-- Show input and output -->
       <div v-if="isOK === true" id="result-compare" class="uk-flex uk-flex-center uk-margin-medium-top">
         <image-compare :before="imageDst" :after="imageSrc">
@@ -53,7 +56,7 @@
       </div>
 
     </div>
-    <div class="uk-section uk-section-secondary bottom_info uk-margin-medium-top">
+    <div class="uk-section uk-section-secondary uk-margin-medium-top bottom_info">
       <div class="uk-container uk-text-center">
         <h3>國立台北科技大學 - 電機工程系 - 高效能計算與深度學習研究室</h3>
         <h3 class="uk-margin-remove">National Taipei University of Technology - Department of Electrical Engineering</h3>
@@ -74,8 +77,10 @@ var savePixels = require('save-pixels')
 
 const loadModel = async () => {
   console.log('Loading model...')
+  this.msgState = 'Loading model...'
   var model = await tf.loadModel(MODEL_PATH)
   console.log('Warmup the model')
+  this.msgState = 'Warmup the model'
   model.predict(tf.zeros([1, 224, 224, 1])).dispose()
   return model
 }
@@ -86,7 +91,8 @@ export default {
     return {
       imageSrc: '/static/after.jpg',
       imageDst: '/static/before.jpg',
-      isOK: false
+      isOK: false,
+      msgState: '.............'
     }
   },
   created: function () {
@@ -110,6 +116,7 @@ export default {
     inference () {
       loadModel().then(model => {
         console.log('Predicting...')
+        this.msgState = 'Predicting...'
 
         /**
          * Get element of html <img>
@@ -230,7 +237,7 @@ h1 {
   color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
-  font-size: 72px;
+  font-size: 50px;
   display:inline-block;
 }
 .subtitle {
