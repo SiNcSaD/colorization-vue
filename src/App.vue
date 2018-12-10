@@ -33,6 +33,10 @@
         </div>
       </div>
 
+      <div v-if="isWait === true">
+        <img src="/static/Spin-1s-200px.gif">
+      </div>
+
       <!-- Show input and output -->
       <div v-if="isOK === true" id="result-compare" class="uk-flex uk-flex-center uk-margin-medium-top">
         <image-compare :before="imageDst" :after="imageSrc">
@@ -87,6 +91,7 @@ export default {
       imageSrc: '/static/after.jpg',
       imageDst: '/static/before.jpg',
       isOK: false,
+      isWait: false,
       msgState: '.............',
       onlineURL: ''
     }
@@ -110,7 +115,7 @@ export default {
       this.inference()
     },
     onClickSubmit: function (event) {
-      this.imageSrc = '/static/Funny-Cat-Jokes2.jpg'
+      this.imageSrc = '/static/ILSVRC2012_val_00046524.JPEG'
       this.inference()
       this.clearMessage()
     },
@@ -118,6 +123,7 @@ export default {
       this.onlineURL = ''
     },
     inference () {
+      this.isWait = true
       loadModel().then(model => {
         console.log('Predicting...')
         this.msgState = 'Predicting...'
@@ -190,6 +196,7 @@ export default {
         ctx.drawImage(canvasResult, 0, 0, W, H)
         this.imageDst = c.toDataURL()
         this.isOK = true
+        this.isWait = false
         // document.getElementById('result-compare').style.display = 'block'
 
         /**
