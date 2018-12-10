@@ -12,22 +12,18 @@
         <!-- 1. Paste URL -->
         <div class="uk-padding-remove">
           <h3 class="subtitle">Paste the URL to an image</h3>
-          <!-- <h3 class="subtitle">Paste the URL</h3> -->
-          <form>
-            <div uk-margin>
-              <div class="uk-inline uk-width-1-2">
-                <span class="uk-form-icon" uk-icon="icon: link"></span>
-                <input class="uk-input" type="text" placeholder="http://">
-              </div>
-              <button class="uk-button uk-button-primary">Submit</button>
+          <div uk-margin>
+            <div class="uk-inline uk-width-1-2">
+              <span class="uk-form-icon" uk-icon="icon: link"></span>
+              <input class="uk-input" type="text" placeholder="http://" v-model="onlineURL">
             </div>
-          </form>
+            <button class="uk-button uk-button-primary" v-on:click="onClickSubmit">Submit</button>
+          </div>
         </div>
 
         <!-- 2. Upload image -->
         <div class="uk-padding-remove">
           <h3 class="subtitle">Click the button to upload an image</h3>
-          <!-- <h3 class="subtitle">Click the button</h3> -->
           <div class="uk-animation-toggle" uk-form-custom>
             <input type="file" @change="onPickFile">
             <button class="uk-button uk-button-secondary uk-animation-shake" type="button" tabindex="-1">
@@ -37,7 +33,6 @@
         </div>
       </div>
 
-      <h4>{{msgState}}</h4>
       <!-- Show input and output -->
       <div v-if="isOK === true" id="result-compare" class="uk-flex uk-flex-center uk-margin-medium-top">
         <image-compare :before="imageDst" :after="imageSrc">
@@ -92,7 +87,8 @@ export default {
       imageSrc: '/static/after.jpg',
       imageDst: '/static/before.jpg',
       isOK: false,
-      msgState: '.............'
+      msgState: '.............',
+      onlineURL: ''
     }
   },
   created: function () {
@@ -112,6 +108,14 @@ export default {
       reader.readAsDataURL(file)
 
       this.inference()
+    },
+    onClickSubmit: function (event) {
+      this.imageSrc = '/static/Funny-Cat-Jokes2.jpg'
+      this.inference()
+      this.clearMessage()
+    },
+    clearMessage () {
+      this.onlineURL = ''
     },
     inference () {
       loadModel().then(model => {
